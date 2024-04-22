@@ -18,7 +18,7 @@ class Menu:
     def run(self):
         pygame.mixer_music.load('./asset/Menu.mp3')
         pygame.mixer_music.play(-1)
-        pygame.mixer_music.set_volume(0.008)
+        pygame.mixer_music.set_volume(0.01)
 
         menu_option = 0
         while True:
@@ -35,25 +35,30 @@ class Menu:
 
             # Verificar eventos
             for event in pygame.event.get():
+
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
                 if event.type == pygame.KEYDOWN:  # testar se alguma tecla foi pressionada
+
                     if event.key == pygame.K_DOWN:  # se a tecla seta para baixo foi pressionada
                         if menu_option < len(MENU_OPTION) - 1:
                             menu_option += 1
                         else:
                             menu_option = 0
+
                     if event.key == pygame.K_UP:  # se a tecla seta para cima foi pressionada
                         if menu_option > 0:
                             menu_option -= 1
                         else:
                             menu_option = len(MENU_OPTION) - 1
+
                     if event.key == pygame.K_RETURN:  # se a tecla enter foi pressionada
                         return MENU_OPTION[menu_option]
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
-        text_surf: Surface = text_font.render(text, True, text_color)
+        text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
         text_rect: Rect = text_surf.get_rect(center=text_center_pos)
         self.window.blit(source=text_surf, dest=text_rect)
